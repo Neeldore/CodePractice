@@ -2,55 +2,28 @@ import java.io.IOException;
 
 class Solution {
     public static void main(String[] args) throws NumberFormatException, IOException {
-        System.out.println(longestPalindrome("ab"));
+        System.out.println(longestPalindrome("cbbd"));
     }
 
     public static String longestPalindrome(String s) {
         int length = s.length();
-        if(length == 0 || length == 1 || length == 2) return s;
-        String finalSub = s.charAt(0) + "";
-        int i = 0;
-        int j = length - 1;
-        while(j != 1){
-            String subString = s.substring(i, j);
-            if(isPalindrome(subString) && subString.length() > finalSub.length()){
-                finalSub = subString;
-            }
-            i++;
-            if(i == j-1){
-                j = j-1;
-                i = 0;
+        if (length == 0 || length == 1)
+            return s;
+        boolean[][] dp = new boolean[length][length];
+        String finalSub = "";
+        int max = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j <= i; j++) {
+                boolean isSame = s.charAt(i) == s.charAt(j);
+                dp[j][i] = i - j > 2 ? dp[j + 1][i - 1] && isSame : isSame;
+
+                if (dp[j][i] && i - j + 1 > max) {
+                    max = i - j + 1;
+                    finalSub = s.substring(j, i + 1);
+                }
+
             }
         }
         return finalSub;
     }
-
-    public static boolean isPalindrome(String s) {
-        int length = s.length();
-        Boolean isPalin = true;
-        if (length % 2 == 0) {
-            int tillJ = length / 2;
-            int tillI = tillJ - 1;
-            int i = 0;
-            int j = length - 1;
-            while (i != tillI && j != tillJ) {
-                if (s.charAt(i) != s.charAt(j))
-                    isPalin = false;
-                i++;
-                j--;
-            }
-        } else {
-            int tillI = (int) Math.floor(length / 2);
-            int i = 0;
-            int j = length - 1;
-            while (i != tillI && j != tillI) {
-                if (s.charAt(i) != s.charAt(j))
-                    isPalin = false;
-                i++;
-                j--;
-            }
-        }
-        return isPalin;
-    }
-
 }
