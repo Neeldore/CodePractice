@@ -1,5 +1,5 @@
 //https://leetcode.com/problems/implement-strstr/
-//added
+
 /**
  * @param {string} haystack
  * @param {string} needle
